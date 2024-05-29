@@ -1,10 +1,10 @@
 import LineFilm from "@/components/LineFilm";
 import ListCard from "@/components/ListCard";
 import ListFilm from "@/components/ListFilm";
+import LoginForm from "@/components/auth/LoginForm";
 import { StoreContext } from "@/context";
 import { useGenres } from "@/swr/useGenres";
 import { Box, Modal } from "@mui/material";
-import zIndex from "@mui/material/styles/zIndex";
 import React, { useCallback, useContext, useState } from "react";
 type Props = {};
 const style = {
@@ -21,21 +21,42 @@ const style = {
   borderRadius: "10px",
   overflowY: "scroll",
 };
+const style2 = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 700,
+  
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  borderRadius: "10px",
+};
 const Home = (props: Props) => {
-  const { count, open, setOpen, storedValue,setValue } = useContext<any>(StoreContext);
+  const {
+    count,
+    open,
+    setOpen,
+    storedValue,
+    setValue,
+    isLoginFormOpen,
+    setOpenLoginForm,
+  } = useContext<any>(StoreContext);
   const { data: genres } = useGenres();
   const handleSetItem = (item: any) => {
     setValue((prev: any) => {
       return prev.filter((i: any) => i.id !== item.id);
     });
-  }
+  };
   return (
     <>
       <div className="container">
         <LineFilm />
         <ListFilm />
         <ListCard />
-        <Modal  open={open} onClose={() => setOpen(false)}>
+        <Modal open={open} onClose={() => setOpen(false)}>
           <Box sx={style}>
             <p>
               <span className="font-bold">Watch list</span> ({count})
@@ -66,7 +87,10 @@ const Home = (props: Props) => {
                           src={`https://image.tmdb.org/t/p/original/${item.poster_path}`}
                           alt=""
                         />
-                        <button className="p-3 bg-red-400 rounded-xl text-white font-bold mt-2 translate-x-[50%]" onClick={()=> handleSetItem(item)}>
+                        <button
+                          className="p-3 bg-red-400 rounded-xl text-white font-bold mt-2 translate-x-[50%]"
+                          onClick={() => handleSetItem(item)}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -89,6 +113,11 @@ const Home = (props: Props) => {
                 );
               })}
             </div>
+          </Box>
+        </Modal>
+        <Modal open={isLoginFormOpen} onClose={() => setOpenLoginForm(false)}>
+          <Box sx={style2}>
+            <LoginForm />
           </Box>
         </Modal>
       </div>

@@ -1,0 +1,91 @@
+.div__container--login {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    .div__banner{
+        position: absolute;
+        background-color: rgba(239 68 68);
+        height: 100%;
+        border-radius: 2rem;
+        
+        img{
+           transform: translateY(50%);
+        }
+    }
+    .form__form--login {
+        // transform: translateX(30%);
+        .div__box--login {
+            .div__label--login {
+                margin: 0.5rem 0;
+                label{
+                    font-weight: 500;
+                    margin-left: 1rem;
+                }
+            }
+            .input__input--login {
+                border: 1px solid black;
+                padding-left: 1rem;
+                height: 3rem;
+                border-radius: 1rem;
+                outline: none;
+            }
+        }
+
+        .btn__btn--login {
+            width: 100%;
+            margin: 1rem auto;
+            background-color: rgba(255, 21, 21, 0.527);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+        }
+    }
+    .form__form--register {
+        
+        // transform: translateX(30%);
+        .div__box--register {
+            .div__label--register {
+                margin: 0.5rem 0;
+                label{
+                    font-weight: 500;
+                    margin-left: 1rem;
+
+                }
+            }
+            .input__input--register {
+                border: 1px solid black;
+                padding-left: 1rem;
+                height: 3rem;
+                border-radius: 1rem;
+                outline: none;
+            }
+        }
+
+        .btn__btn--register {
+            width: 100%;
+            margin: 1rem auto;
+            background-color: rgba(255, 21, 21, 0.527);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+        }
+    }
+}
+.p__head--title {
+    font-size: 2rem;
+    text-align: center;
+
+}
+.p__footer--title-register{
+    font-size: 1.5rem;
+    text-decoration: underline;
+    float: right;
+}
+.p__footer--title-login{
+    font-size: 1.5rem;
+    text-decoration: underline;
+    float: left;
+}

@@ -1,7 +1,7 @@
 import Nav from "@/components/Nav";
 import TrendTab from "@/components/TrendTab";
 import { StoreProvider } from "@/context";
-import "@/styles/globals.css";
+import "@/styles/globals.scss";
 import  { SWRConfig } from "swr";
 
 export default function App({ Component, pageProps }: any) {
@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: any) {
     <>
       <SWRConfig
         value={{
-          refreshInterval: 3000,
+          refreshInterval: 0,
           fetcher: (resource, init) =>
             fetch(resource, init).then((res) => res.json()),
         }}

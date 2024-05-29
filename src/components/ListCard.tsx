@@ -1,21 +1,16 @@
 import React, { useState } from "react";
 import Card from "./Card";
 import { useFilm } from "@/swr/useFilm";
-import { useGenres } from "@/swr/useGenres";
 
 type Props = {};
 
-
 const ListCard = (props: Props) => {
-    
-    
-    const {data,error,isLoading} = useFilm()      
-    if(isLoading) return <p>Loading...</p>
+  const { data, isLoading } = useFilm();
 
   return (
     <div className="grid grid-cols-6 overflow-x-scroll-scroll gap-3 mt-5">
-      {data?.results.slice(0,6).map((item: any) => (
-        <Card key={item.id} item={item} />
+      {data?.results.slice(0, 6).map((item: any) => (
+        <Card key={item.id} item={item} isLoading={isLoading} />
       ))}
     </div>
   );

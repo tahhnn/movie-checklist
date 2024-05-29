@@ -15,4 +15,5 @@ export type Content = {
       video: boolean;
       vote_count: number;
     };
+    isLoading: boolean
   };

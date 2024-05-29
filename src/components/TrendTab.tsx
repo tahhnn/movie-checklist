@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 const TrendTab = (props: Props) => {
   return (
-    <div className=' bg-[#717071] p-[0.25rem] text-white'>TRENDING RIGHNOW</div>
-  )
-}
+    <div className="bg-[#717071] p-[0.25rem] text-white">TRENDING RIGHNOW</div>
+  );
+};
 
-export default TrendTab
+export default TrendTab;

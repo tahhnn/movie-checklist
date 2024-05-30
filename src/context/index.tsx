@@ -23,6 +23,8 @@ interface StoreContext {
   setLoginStored: Dispatch<SetStateAction<Record<string, any>>>;
   setFormToggle: Dispatch<SetStateAction<boolean>>;
   toggle: boolean;
+  onCreate: boolean;
+  setOnCreate: Dispatch<SetStateAction<boolean>>;
 }
 export const StoreContext = createContext<StoreContext | null>(null);
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
@@ -33,9 +35,12 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const [loginStored, setLoginStored] = useLocalStorage("isLogin", {});
   const [count, setCount] = useState(0);
   const [open, setOpen] = useState(false);
+
   const [isLogin, setLogin] = useState(false);
-  const [toggle, setFormToggle] = useState(false)
+  const [toggle, setFormToggle] = useState(false);
   const [isLoginFormOpen, setOpenLoginForm] = useState(false);
+
+  const [onCreate, setOnCreate] = useState(false);
   useEffect(() => {
     setCount(storedValue.length);
   }, [storedValue]);
@@ -55,7 +60,9 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
         loginStored,
         setLoginStored,
         setFormToggle,
-        toggle
+        toggle,
+        onCreate,
+        setOnCreate,
       }}
     >
       {children}

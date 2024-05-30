@@ -9,7 +9,7 @@ const Card = ({ item, isLoading }: Content) => {
 
   const [isOnChecklist, setToChecklist] = useState<boolean>(false);
   const { data: genres } = useGenres();
-  const genresName = genres?.genres.filter((i: any) => {
+  const genresName = genres?.filter((i: any) => {
     return item.genre_ids?.includes(i.id);
   });
   const handleGetId = (item: any) => {

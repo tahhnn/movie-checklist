@@ -2,27 +2,21 @@ import { StoreContext } from "@/context";
 import { Content } from "@/interface";
 import { useGenres } from "@/swr/useGenres";
 import { Skeleton } from "@mui/material";
+import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 
-const Card = ({ item, isLoading }: Content) => {
-  const { storedValue, setValue } = useContext<any>(StoreContext);
+const Card = ({ item, isLoading,isValidating }: Content) => {
+  const { storedValue, setValue,handleRemoveCheckList,handleCheckList } = useContext<any>(StoreContext);
 
   const [isOnChecklist, setToChecklist] = useState<boolean>(false);
   const { data: genres } = useGenres();
   const genresName = genres?.filter((i: any) => {
-    return item.genre_ids?.includes(i.id);
+    return item.genre_ids?.includes(+i.id);
   });
-  const handleGetId = (item: any) => {
-    setValue((prev: any) => {
-      return [...prev, { ...item }];
-    });
-  };
-  const handleRemove = (item: any) => {
-    setValue((prev: any) => {
-      return prev.filter((i: any) => i.id !== item.id);
-    });
-  };
 
+  const handleError = (e: any, poster_path: any) => {
+    e.target.src = poster_path;
+  };
   useEffect(() => {
     if (storedValue?.find((i: any) => i.id === item.id)) {
       setToChecklist(true);
@@ -33,7 +27,7 @@ const Card = ({ item, isLoading }: Content) => {
   }, [storedValue]);
   return (
     <div className="relative">
-      {isLoading ? (
+      {isLoading && isValidating ? (
         <>
           <div>
             <Skeleton variant="rectangular" animation="wave" height={388} />
@@ -61,8 +55,12 @@ const Card = ({ item, isLoading }: Content) => {
             className="rounded-2xl"
             src={`https://image.tmdb.org/t/p/original${item.poster_path}`}
             alt=""
+            onError={(e) => handleError(e, item?.poster_path)}
           />
-          <button className="absolute top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[150%] border-4 p-4 rounded-3xl">
+          <Link
+            href={`/detail/${item.id}`}
+            className="absolute top-[50%] left-[50%] transform -translate-x-[50%] -translate-y-[150%] border-4 p-4 rounded-3xl"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -77,7 +75,7 @@ const Card = ({ item, isLoading }: Content) => {
                 d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347a1.125 1.125 0 0 1-1.667-.986V5.653Z"
               />
             </svg>
-          </button>
+          </Link>
           <p>{Math.floor((item.vote_average * 100) / 10)} Points</p>
           <p className="text-center mt-2 h-[50px] font-bold">{item?.title}</p>
           <span className="flex gap-3 justify-center">
@@ -89,7 +87,7 @@ const Card = ({ item, isLoading }: Content) => {
             <button
               className="flex mx-auto mt-4 border-2 border-red-300 p-3 rounded-lg hover:bg-red-400 hover:text-white transition-all delay-75 ease-linear"
               onClick={() => {
-                handleGetId(item);
+                handleCheckList(item);
               }}
             >
               <svg
@@ -113,7 +111,7 @@ const Card = ({ item, isLoading }: Content) => {
             <button
               className="flex mx-auto mt-4 border-2 border-red-300 p-3 rounded-lg hover:bg-red-400 hover:text-white transition-all delay-75 ease-linear"
               onClick={() => {
-                handleRemove(item);
+                handleRemoveCheckList(item);
               }}
             >
               <svg

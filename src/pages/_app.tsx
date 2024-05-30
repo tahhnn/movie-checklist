@@ -2,14 +2,16 @@ import Nav from "@/components/Nav";
 import TrendTab from "@/components/TrendTab";
 import { StoreProvider } from "@/context";
 import "@/styles/globals.scss";
-import  { SWRConfig } from "swr";
+import { SWRConfig } from "swr";
 
 export default function App({ Component, pageProps }: any) {
   return (
     <>
       <SWRConfig
         value={{
-          refreshInterval: 0,
+          revalidateIfStale: false,
+          revalidateOnFocus: false,
+          revalidateOnReconnect: false,
           fetcher: (resource, init) =>
             fetch(resource, init).then((res) => res.json()),
         }}

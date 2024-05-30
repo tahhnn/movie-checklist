@@ -25,6 +25,10 @@ interface StoreContext {
   toggle: boolean;
   onCreate: boolean;
   setOnCreate: Dispatch<SetStateAction<boolean>>;
+  handleRemoveCheckList: (item: any) => void;
+  handleCheckList: (item: any) => void;
+  onUpdate: boolean;
+  setOnUpdate: Dispatch<SetStateAction<boolean>>;
 }
 export const StoreContext = createContext<StoreContext | null>(null);
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
@@ -39,8 +43,20 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLogin, setLogin] = useState(false);
   const [toggle, setFormToggle] = useState(false);
   const [isLoginFormOpen, setOpenLoginForm] = useState(false);
-
+  const [onUpdate, setOnUpdate] = useState(false);
   const [onCreate, setOnCreate] = useState(false);
+  const handleRemoveCheckList = (item: any) => {
+    setValue((prev: any) => {
+      return prev.filter((i: any) => i.id !== item.id);
+    });
+  };
+
+  const handleCheckList = (item: any) => {
+    setValue((prev: any) => {
+      return [...prev, { ...item }];
+    });
+  };
+
   useEffect(() => {
     setCount(storedValue.length);
   }, [storedValue]);
@@ -63,6 +79,10 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
         toggle,
         onCreate,
         setOnCreate,
+        handleRemoveCheckList,
+        handleCheckList,
+        onUpdate,
+        setOnUpdate,
       }}
     >
       {children}

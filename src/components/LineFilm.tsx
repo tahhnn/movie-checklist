@@ -7,16 +7,16 @@ type Props = {};
 const LineFilm = (props: Props) => {
   const { data, isLoading } = getFilmTopRate();
   const dataAdventure = data
-    ?.filter((item: any) => item.genre_ids.includes(12))
+    ?.filter((item: any) => item.genre_ids?.includes(12))
     .find((i: any) => Math.max(i.vote_average));
   const dataAction = data
-    ?.filter((item: any) => item.genre_ids.includes(28))
+    ?.filter((item: any) => item.genre_ids?.includes(28))
     .find((i: any) => Math.max(i.vote_average));
   const dataAnimation = data
-    ?.filter((item: any) => item.genre_ids.includes(16))
+    ?.filter((item: any) => item.genre_ids?.includes(16))
     .find((i: any) => Math.max(i.vote_average));
   const dataCrime = data
-    ?.filter((item: any) => item.genre_ids.includes(80))
+    ?.filter((item: any) => item.genre_ids?.includes(80))
     .find((i: any) => Math.max(i.vote_average));
 
   return (

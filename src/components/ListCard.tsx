@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "./Card";
 import { useFilm } from "@/swr/useFilm";
+import { StoreContext } from "@/context";
 
 type Props = {};
 
 const ListCard = (props: Props) => {
-  const { data, isLoading } = useFilm();
-
+  const {setOnCreate} = useContext<any>(StoreContext);
+  const { data, isLoading,isValidating,mutate } = useFilm();
+  const [dataCard, setDataCard] = useState<any>([]);
+  useEffect(() =>{
+    setDataCard(data);
+    mutate(...(data ? [data] : []))
+  },[isValidating])
   return (
     <div className="grid grid-cols-6 overflow-x-scroll-scroll gap-3 mt-5">
-      {data?.map((item: any) => (
-        <Card key={item.id} item={item} isLoading={isLoading} />
+      {dataCard?.map((item: any) => (
+        <Card key={item.id} item={item} isLoading={isLoading} isValidating={isValidating} />
       ))}
-      <button className="">
+      <button className="" onClick={() => setOnCreate(true)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

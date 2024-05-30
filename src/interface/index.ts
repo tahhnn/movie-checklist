@@ -16,4 +16,5 @@ export type Content = {
       vote_count: number;
     };
     isLoading: boolean
+    isValidating: boolean
   };

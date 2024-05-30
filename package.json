@@ -11,7 +11,10 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@mui/material": "^5.15.18",
+    "@hookform/resolvers": "^3.4.2",
+    "@mui/icons-material": "^5.15.19",
+    "@mui/material": "^5.15.19",
+    "@rpldy/uploady": "^1.8.1",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "next": "14.2.3",
@@ -20,13 +23,14 @@
     "react-hook-form": "^7.51.5",
     "sass": "^1.77.2",
     "swr": "^2.2.5",
-    "usehooks-ts": "^3.1.0"
+    "usehooks-ts": "^3.1.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "json-server": "^1.0.0-beta.0",
+    "json-server": "^0.16.3",
     "json-server-auth": "^2.1.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",

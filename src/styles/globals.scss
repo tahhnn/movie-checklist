@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '../components/auth/loginForm.scss'; 
+@import './object/components/loginForm.scss';
+@import './object/components/moviecreate.scss';
+@import './object/components/detail.scss';
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

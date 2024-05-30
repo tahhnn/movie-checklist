@@ -2,6 +2,8 @@ import LineFilm from "@/components/LineFilm";
 import ListCard from "@/components/ListCard";
 import ListFilm from "@/components/ListFilm";
 import LoginForm from "@/components/auth/LoginForm";
+import MovieCreate from "@/components/movie/MovieCreate";
+import MovieUpdate from "@/components/movie/MovieUpdate";
 import { StoreContext } from "@/context";
 import { useGenres } from "@/swr/useGenres";
 import { Box, Modal } from "@mui/material";
@@ -22,17 +24,20 @@ const style = {
   overflowY: "scroll",
 };
 const style2 = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  ...style,
   width: 700,
-  
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: "10px",
+  height: "fit-content",
+
+  overflowY: "hidden",
+  overflowX: "hidden",
+};
+const style3 = {
+  ...style,
+  width: 700,
+  height: "fit-content",
+
+  overflowY: "hidden",
+  overflowX: "hidden",
 };
 const Home = (props: Props) => {
   const {
@@ -43,6 +48,9 @@ const Home = (props: Props) => {
     setValue,
     isLoginFormOpen,
     setOpenLoginForm,
+    onCreate,
+    setOnCreate,
+   
   } = useContext<any>(StoreContext);
   const { data: genres } = useGenres();
   const handleSetItem = (item: any) => {
@@ -63,7 +71,7 @@ const Home = (props: Props) => {
             </p>
             <div className="">
               {storedValue.map((item: any) => {
-                const genresName = genres?.genres.filter((i: any) => {
+                const genresName = genres?.filter((i: any) => {
                   return item.genre_ids?.includes(i.id);
                 });
 
@@ -120,6 +128,12 @@ const Home = (props: Props) => {
             <LoginForm />
           </Box>
         </Modal>
+        <Modal open={onCreate} onClose={() => setOnCreate(false)}>
+          <Box sx={style3}>
+            <MovieCreate />
+          </Box>
+        </Modal>
+        
       </div>
     </>
   );

@@ -6,3 +6,6 @@ export function useFilm() {
 export function getFilmTopRate() {
   return useSWR(`http://localhost:3000/movies`, fetcher);
 }
+export function getOneFilm(id:any) {
+  return useSWR(`http://localhost:3000/movies/${id}`, fetcher);
+}

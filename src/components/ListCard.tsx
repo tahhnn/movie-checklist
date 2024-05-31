@@ -1,24 +1,54 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import Card from "./Card";
 import { useFilm } from "@/swr/useFilm";
 import { StoreContext } from "@/context";
+import { Skeleton } from "@mui/material";
 
 type Props = {};
 
 const ListCard = (props: Props) => {
-  const {setOnCreate} = useContext<any>(StoreContext);
-  const { data, isLoading,isValidating,mutate } = useFilm();
-  const [dataCard, setDataCard] = useState<any>([]);
-  useEffect(() =>{
-    setDataCard(data);
-    mutate(...(data ? [data] : []))
-  },[isValidating])
+  const { setOnCreate } = useContext<any>(StoreContext);
+  
+  const { data, isLoading, isValidating, mutate } = useFilm();
+  const dataCard = useMemo(() => {
+    return data;
+  },[data])
+  
   return (
     <div className="grid grid-cols-6 overflow-x-scroll-scroll gap-3 mt-5">
-      {dataCard?.map((item: any) => (
-        <Card key={item.id} item={item} isLoading={isLoading} isValidating={isValidating} />
+      {isLoading && isValidating ? (
+        <>
+          <div>
+            <Skeleton variant="rectangular" animation="wave" height={388} />
+            <Skeleton width={"25%"} />
+            <Skeleton width={"100%"} />
+            <div className="flex gap-2 mt-5">
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                width={"40%"}
+                height={10}
+              />
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                width={"40%"}
+                height={10}
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          {dataCard?.map((item: any) => (
+        <Card
+          key={item.id}
+          item={item}
+          isLoading={isLoading}
+          isValidating={isValidating}
+        />
       ))}
-      <button className="" onClick={() => setOnCreate(true)}>
+      <button onClick={() => setOnCreate(true)}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -34,6 +64,9 @@ const ListCard = (props: Props) => {
           />
         </svg>
       </button>
+        </>
+      )
+    }
     </div>
   );
 };

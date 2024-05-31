@@ -1,5 +1,5 @@
 import Uploady from "@rpldy/uploady";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { FilmApi } from "@/instance/film";
 import { useGenres } from "@/swr/useGenres";
@@ -7,10 +7,18 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { error } from "console";
 import { mutate } from "swr";
+import { StoreContext } from "@/context";
+import { useFilm } from "@/swr/useFilm";
 
 type Props = {};
-
+type Data = {
+  title: string;
+  vote_average: number;
+  genre_ids: number[];
+  poster_path: string;
+};
 const MovieCreate = (props: Props) => {
+  const { setOnCreate } = useContext<any>(StoreContext);
   const schema = z.object({
     title: z
       .string()
@@ -34,17 +42,21 @@ const MovieCreate = (props: Props) => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(schema) });
   const { data: genres } = useGenres();
-
-  const onSubmit = (data: any) => {
-
+  const { data:film, mutate } = useFilm();
+  const onSubmit = (data: Data) => {
     const formData = {
       title: data.title,
       vote_average: data.vote_average,
-      genre_ids: data.genre_ids,
+      genre_ids: data.genre_ids.map(Number),
       poster_path: data.poster_path,
     };
-    FilmApi.addFilm(formData);
-   
+
+    FilmApi.addFilm(formData).then(() => {
+      reset();
+      setOnCreate(false);
+      mutate(film,true);
+    });
+      
   };
 
   return (
@@ -83,8 +95,12 @@ const MovieCreate = (props: Props) => {
             placeholder="Enter Point"
             min={0}
             max={10}
+            pattern="[0-9]*[.,]?[0-9]*"
+
           />
-          <p className="p__error" className="p__error">{errors ? errors.vote_average?.message : ""}</p>
+          <p className="p__error" className="p__error">
+            {errors ? errors.vote_average?.message : ""}
+          </p>
         </div>
 
         <div className="div__box--input-checkbox">
@@ -103,7 +119,7 @@ const MovieCreate = (props: Props) => {
               </div>
             ))}
           </div>
-            <p  className="p__error">{errors ? errors.genre_ids?.message : ""}</p>
+          <p className="p__error">{errors ? errors.genre_ids?.message : ""}</p>
         </div>
 
         <div className="div__box--input">

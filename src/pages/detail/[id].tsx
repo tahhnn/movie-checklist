@@ -1,5 +1,5 @@
 import { StoreContext } from "@/context";
-import { getOneFilm } from "@/swr/useFilm";
+import { getOneFilm, useFilm } from "@/swr/useFilm";
 import { useGenres } from "@/swr/useGenres";
 import {
   Box,
@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/router";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import DeleteIcon from "@mui/icons-material/Delete";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import MovieUpdate from "@/components/movie/MovieUpdate";
 import { FilmApi } from "@/instance/film";
 type Props = {};
@@ -40,45 +40,66 @@ const DetailMovie = (props: Props) => {
     storedValue,
     onUpdate,
     setOnUpdate,
-  } = useContext(StoreContext);
-  const id = param.query.id;
-  const [isOnCheckList, setIsOnCheckList] = useState<boolean>(false);
+  } = useContext<any>(StoreContext);
+  const route = useRouter();
+  
+  const id = route.query.id;
   const { data } = getOneFilm(id);
+  
+
+  const { data: film, mutate, isLoading:filmLoading } = useFilm();
   
   const { data: genres } = useGenres();
   const genresName = genres?.filter((i: any) => {
     return data?.genre_ids?.includes(+i.id);
   });
+
   const handleError = (e: any, poster_path: any) => {
     e.target.src = poster_path;
   };
   const handleDelete = () => {
-    FilmApi.deleteFilm(data?.id);
-  }
+    FilmApi.deleteFilm(data?.id).then(() => {
+      mutate();
+      route.push("/");
+    });
+  };
+
   const actions = [
-    { icon: <AutoFixHighIcon />, name: "Fix",func: setOnUpdate },
-    { icon: <DeleteIcon />, name: "Delete",func: handleDelete },
+    { icon: <AutoFixHighIcon />, name: "Fix", func: setOnUpdate },
+    { icon: <DeleteIcon />, name: "Delete", func: handleDelete },
   ];
-  useEffect(() => {
-    if (storedValue?.find((i: any) => i.id === data?.id)) {
-      setIsOnCheckList(true);
-    }
-    if (!storedValue?.find((i: any) => i.id === data?.id)) {
-      setIsOnCheckList(false);
-    }
+ 
+  const isOnCheckList = useMemo(() => {
+    return storedValue?.some((i: any) => i.id === data?.id);
   }, [storedValue, data]);
+
+  const handleSuccess = () => {
+    setOnUpdate(false);
+    mutate()
+  }
+  // useEffect(() => {
+  //   const existFilm = film?.find((i: any) => i.id === +data?.id);
+  //   if (existFilm) {
+  //     route.push('/404')
+  //   }
+  // },[id,film])
   return (
     <>
       <div className="div__container--detail">
         <div className="div__div--left-detail">
           <img
+            width={500}
+            height={750}
             src={`https://image.tmdb.org/t/p/w500${data?.poster_path}`}
             onError={(e) => handleError(e, data?.poster_path)}
             alt="ok"
           />
           <span className="flex gap-3 mt-3">
             {genresName?.map((i: any) => (
-              <p className="p-2 text-2xl bg-red-400 text-white rounded-xl">
+              <p
+                key={i.id}
+                className="p-2 text-2xl bg-red-400 text-white rounded-xl"
+              >
                 {i.name}
               </p>
             ))}
@@ -88,7 +109,9 @@ const DetailMovie = (props: Props) => {
           <p className="p__title">{data?.title}</p>
           <p>
             Rating:{" "}
-            <strong>{Math.floor((data?.vote_average / 10) * 100)}%</strong>
+            <strong>
+              {Math.floor((data?.vote_average / 10) * 100)}%
+            </strong>
           </p>
 
           <p>{data?.overview}</p>
@@ -124,7 +147,7 @@ const DetailMovie = (props: Props) => {
                 icon={action.icon}
                 tooltipTitle={action.name}
                 onClick={() => {
-                  action.func(true)
+                  action.func(true);
                 }}
               />
             ))}
@@ -133,7 +156,7 @@ const DetailMovie = (props: Props) => {
       </div>
       <Modal open={onUpdate} onClose={() => setOnUpdate(false)}>
         <Box sx={style3}>
-          <MovieUpdate item={data} />
+          <MovieUpdate item={data} handleSuccess={handleSuccess}/>
         </Box>
       </Modal>
     </>

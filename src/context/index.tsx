@@ -1,4 +1,5 @@
 import { Content } from "@/interface";
+import { useFilm } from "@/swr/useFilm";
 import {
   Dispatch,
   SetStateAction,
@@ -19,8 +20,8 @@ interface StoreContext {
   setLogin: Dispatch<SetStateAction<boolean>>;
   isLoginFormOpen: boolean;
   setOpenLoginForm: Dispatch<SetStateAction<boolean>>;
-  loginStored: Record<string, any>;
-  setLoginStored: Dispatch<SetStateAction<Record<string, any>>>;
+  loginStored: boolean
+  setLoginStored: Dispatch<SetStateAction<boolean>>;
   setFormToggle: Dispatch<SetStateAction<boolean>>;
   toggle: boolean;
   onCreate: boolean;
@@ -29,6 +30,8 @@ interface StoreContext {
   handleCheckList: (item: any) => void;
   onUpdate: boolean;
   setOnUpdate: Dispatch<SetStateAction<boolean>>;
+  storedData: Record<string, any>;
+  setStoredData: Dispatch<SetStateAction<Record<string, any>>>;
 }
 export const StoreContext = createContext<StoreContext | null>(null);
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
@@ -36,10 +39,12 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
     "checkList",
     []
   );
-  const [loginStored, setLoginStored] = useLocalStorage("isLogin", {});
+  const [storedData,setStoredData] = useLocalStorage("data",{}); 
+  const {data: film} = useFilm();
+  const [loginStored, setLoginStored] = useState(false);
   const [count, setCount] = useState(0);
   const [open, setOpen] = useState(false);
-
+  
   const [isLogin, setLogin] = useState(false);
   const [toggle, setFormToggle] = useState(false);
   const [isLoginFormOpen, setOpenLoginForm] = useState(false);
@@ -56,10 +61,23 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
       return [...prev, { ...item }];
     });
   };
-
+  
   useEffect(() => {
     setCount(storedValue.length);
   }, [storedValue]);
+  useEffect(() => {
+    setStoredData(film)
+  },[film])
+  if (typeof window !== 'undefined') {
+    const token = window.localStorage.getItem("token");
+    useEffect(() => {
+      if (token) {
+        setLogin(true);
+      }else{
+        setLogin(false);
+      }
+    },[token])
+  }
   return (
     <StoreContext.Provider
       value={{
@@ -83,6 +101,8 @@ export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
         handleCheckList,
         onUpdate,
         setOnUpdate,
+        storedData,
+        setStoredData
       }}
     >
       {children}

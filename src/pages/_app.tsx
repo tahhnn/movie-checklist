@@ -1,3 +1,4 @@
+import ModalWatchList from "@/components/Modal/ModalWatchList";
 import Nav from "@/components/Nav";
 import TrendTab from "@/components/TrendTab";
 import { StoreProvider } from "@/context";
@@ -9,9 +10,7 @@ export default function App({ Component, pageProps }: any) {
     <>
       <SWRConfig
         value={{
-          revalidateIfStale: false,
-          revalidateOnFocus: false,
-          revalidateOnReconnect: false,
+          refreshInterval: 0,
           fetcher: (resource, init) =>
             fetch(resource, init).then((res) => res.json()),
         }}
@@ -21,6 +20,7 @@ export default function App({ Component, pageProps }: any) {
             <div className="container mx-auto">
               <Nav />
               <TrendTab />
+              <ModalWatchList />
               <Component {...pageProps} />
             </div>
           </div>

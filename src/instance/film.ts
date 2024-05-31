@@ -14,7 +14,7 @@ export const FilmApi = {
   updateFilm: async (payload: any,id:any) => {
     try{
 
-    const response = await instance.patch(`/movies/${id}`, payload);
+    const response = await instance.put(`/movies/${id}`, payload);
     return response.data;
     }catch(error: Error | any){
       throw new Error(error.response.data.message || 'Đã xảy ra lỗi.');

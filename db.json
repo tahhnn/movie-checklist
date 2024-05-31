@@ -1,71 +1,35 @@
 {
   "users": [
     {
-      "0": {
-        "email": "olivier@mail.com",
-        "password": "bestPassw0rd"
-      },
-      "id": "ce73"
-    },
-    {
-      "id": "f073",
       "email": "thanhphuongmao4@gmail.com",
-      "password": "11223344"
+      "password": "$2a$10$YVzWnDK9AZHj04Dvb4l0z.7fQmExIZ5M4cnyqttcqBHvcFJqojZU2",
+      "id": 1
     },
     {
-      "email": "olivier@mail.com",
-      "password": "$2a$10$q5ae2s4Vxb52c2.yzUZbFuj2e1eQukRbn19MnFI9NbdxDG7tVcgBq",
-      "id": "J-eXd0C"
+      "email": "t@gmail.com",
+      "password": "$2a$10$d1BdBPQ7u8tfArXUKuRaTupGRHzikX.NWIdtPmrrwzPsTv9PZxLt6",
+      "id": 2
     }
   ],
   "movies": [
     {
-      "adult": false,
-      "backdrop_path": "/xRd1eJIDe7JHO5u4gtEYwGn5wtf.jpg",
-      "genre_ids": [
-        878,
-        28,
-        12
-      ],
-      "id": 823464,
-      "original_language": "en",
-      "original_title": "Godzilla x Kong: The New Empire",
-      "overview": "Following their explosive showdown, Godzilla and Kong must reunite against a colossal undiscovered threat hidden within our world, challenging their very existence – and our own.",
-      "popularity": 3148.883,
-      "poster_path": "/z1p34vh7dEOnLDmyCrlUVLuoDzd.jpg",
-      "release_date": "2024-03-27",
-      "title": "Godzilla x Kong: The New Empire",
-      "video": false,
-      "vote_average": 7.26,
-      "vote_count": 2257
-    },
-    {
-      "adult": false,
-      "backdrop_path": "/z121dSTR7PY9KxKuvwiIFSYW8cf.jpg",
-      "genre_ids": [
-        10752,
-        28,
-        18
-      ],
-      "id": 929590,
-      "original_language": "en",
-      "original_title": "Civil War",
-      "overview": "In the near future, a group of war journalists attempt to survive while reporting the truth as the United States stands on the brink of civil war.",
-      "popularity": 2767.933,
-      "poster_path": "/sh7Rg8Er3tFcN9BpKIPOMvALgZd.jpg",
-      "release_date": "2024-04-10",
       "title": "Civil War",
-      "video": false,
       "vote_average": 7.255,
-      "vote_count": 977
+      "genre_ids": [
+        28,
+        18,
+        10752
+      ],
+      "poster_path": "/sh7Rg8Er3tFcN9BpKIPOMvALgZd.jpg",
+      "id": 929590
     },
     {
       "adult": false,
       "backdrop_path": "/fqv8v6AycXKsivp1T5yKtLbGXce.jpg",
       "genre_ids": [
-        878,
+        28,
         12,
-        28
+        878
       ],
       "id": 653346,
       "original_language": "en",
@@ -76,7 +40,7 @@
       "release_date": "2024-05-08",
       "title": "Kingdom of the Planet of the Apes",
       "video": false,
-      "vote_average": 7.089,
+      "vote_average": "7.089",
       "vote_count": 636
     },
     {
@@ -84,7 +48,7 @@
       "backdrop_path": "/H5HjE7Xb9N09rbWn1zBfxgI8uz.jpg",
       "genre_ids": [
         28,
-        35
+        16
       ],
       "id": 746036,
       "original_language": "en",
@@ -162,25 +126,16 @@
       "vote_count": 1184
     },
     {
-      "adult": false,
-      "backdrop_path": "/42rp8MkwOEFA62wwgKcuOpP8Fjb.jpg",
+      "title": "Noryang: Deadly SeE",
+      "vote_average": 7.214,
       "genre_ids": [
         28,
-        36,
         18,
+        36,
         10752
       ],
-      "id": 660360,
-      "original_language": "ko",
-      "original_title": "노량: 죽음의 바다",
-      "overview": "In the winter of 1598, the seven-year Imjin War nears an end as the Japanese Wae invaders prepare to withdraw from Joseon. Admiral Yi Sun-shin leads an allied fleet of Joseon and Ming ships to annihilate the Wae army. Joseon, Ming, and Wae forces clash at Noryang Strait, the deadly sea where Admiral Yi fights his last valiant battle.",
-      "popularity": 692.948,
       "poster_path": "/wFAe7gA513Pi2meI4ECwf6YEKR1.jpg",
-      "release_date": "2023-12-20",
-      "title": "Noryang: Deadly Sea",
-      "video": false,
-      "vote_average": 7.214,
-      "vote_count": 21
+      "id": 660360
     },
     {
       "adult": false,
@@ -224,24 +179,15 @@
       "vote_count": 1782
     },
     {
-      "adult": false,
-      "backdrop_path": "/2mtxXjkQOLYPOhTKoCaWVVjKlfW.jpg",
+      "title": "The Garfield MoviE",
+      "vote_average": 6.5,
       "genre_ids": [
         16,
         35,
         10751
       ],
-      "id": 748783,
-      "original_language": "en",
-      "original_title": "The Garfield Movie",
-      "overview": "Garfield, the world-famous, Monday-hating, lasagna-loving indoor cat, is about to have a wild outdoor adventure! After an unexpected reunion with his long-lost father – scruffy street cat Vic – Garfield and his canine friend Odie are forced from their perfectly pampered life into joining Vic in a hilarious, high-stakes heist.",
-      "popularity": 614.28,
       "poster_path": "/p6AbOJvMQhBmffd0PIv0u8ghWeY.jpg",
-      "release_date": "2024-04-30",
-      "title": "The Garfield Movie",
-      "video": false,
-      "vote_average": 6.5,
-      "vote_count": 116
+      "id": 748783
     },
     {
       "adult": false,
@@ -325,26 +271,6 @@
     },
     {
       "adult": false,
-      "backdrop_path": "/4woSOUD0equAYzvwhWBHIJDCM88.jpg",
-      "genre_ids": [
-        28,
-        27,
-        53
-      ],
-      "id": 1096197,
-      "original_language": "en",
-      "original_title": "No Way Up",
-      "overview": "Characters from different backgrounds are thrown together when the plane they're travelling on crashes into the Pacific Ocean. A nightmare fight for survival ensues with the air supply running out and dangers creeping in from all sides.",
-      "popularity": 441.203,
-      "poster_path": "/hu40Uxp9WtpL34jv3zyWLb5zEVY.jpg",
-      "release_date": "2024-01-18",
-      "title": "No Way Up",
-      "video": false,
-      "vote_average": 6.425,
-      "vote_count": 691
-    },
-    {
-      "adult": false,
       "backdrop_path": "/4XM8DUTQb3lhLemJC51Jx4a2EuA.jpg",
       "genre_ids": [
         28,
@@ -403,6 +329,16 @@
       "video": false,
       "vote_average": 7.467,
       "vote_count": 1370
+    },
+    {
+      "title": "123",
+      "vote_average": 10,
+      "genre_ids": [
+        28,
+        37
+      ],
+      "poster_path": "https://picsum.photos/200/300",
+      "id": 1219686
     }
   ],
   "genres": [

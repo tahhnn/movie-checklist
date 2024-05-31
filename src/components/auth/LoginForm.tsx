@@ -6,18 +6,31 @@ import { AuthApi } from "@/instance/auth";
 type Props = {};
 
 const LoginForm = (props: Props) => {
-  const { toggle, setFormToggle } = useContext<any>(StoreContext);
-  const { register: registerLogin, handleSubmit: handleSubmitLogin, reset: resetLogin } = useForm();
-  const { register: registerRegister, handleSubmit: handleSubmitRegister, reset: resetRegister } = useForm();
+  const { toggle, setFormToggle, setOpenLoginForm,setLogin } =
+    useContext<any>(StoreContext);
+  const {
+    register: registerLogin,
+    handleSubmit: handleSubmitLogin,
+    reset: resetLogin,
+  } = useForm();
+  const {
+    register: registerRegister,
+    handleSubmit: handleSubmitRegister,
+    reset: resetRegister,
+  } = useForm();
 
   const onSubmit = (data: any) => {
-    AuthApi.login(data);
-    resetLogin();
-  }
+    AuthApi.login(data).then(() => {
+      resetLogin();
+      setOpenLoginForm(false);
+      setLogin(true);
+    });
+  };
   const registerSubmit = (data: any) => {
     AuthApi.register(data);
     resetRegister();
-  }
+    setFormToggle(true);
+  };
   return (
     <>
       <p className="p__head--title">{toggle ? "Login" : "Register"}</p>
@@ -31,7 +44,10 @@ const LoginForm = (props: Props) => {
         >
           <img className=" bg-red-500" src={logo.default.src} alt="" />
         </div>
-        <form onSubmit={handleSubmitLogin(onSubmit)} className="form__form--login">
+        <form
+          onSubmit={handleSubmitLogin(onSubmit)}
+          className="form__form--login"
+        >
           <div className="div__box--login">
             <div className="div__label--login">
               <label htmlFor="">UserName</label>
@@ -57,12 +73,16 @@ const LoginForm = (props: Props) => {
           <button className="btn__btn--login">Login</button>
         </form>
 
-        <form onSubmit={handleSubmitRegister(registerSubmit)} className="form__form--register">
+        <form
+          onSubmit={handleSubmitRegister(registerSubmit)}
+          className="form__form--register"
+        >
           <div className="div__box--register">
             <div className="div__label--register">
               <label htmlFor="">UserName</label>
             </div>
-            <input {...registerRegister("email")}
+            <input
+              {...registerRegister("email")}
               className="input__input--register"
               type="text"
               placeholder="Enter your name"
@@ -72,7 +92,8 @@ const LoginForm = (props: Props) => {
             <div className="div__label--register">
               <label htmlFor="">Password</label>
             </div>
-            <input {...registerRegister("password")}
+            <input
+              {...registerRegister("password")}
               className="input__input--register"
               type="password"
               placeholder="Enter your password"

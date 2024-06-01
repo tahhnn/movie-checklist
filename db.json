@@ -9,6 +9,11 @@
       "email": "t@gmail.com",
       "password": "$2a$10$d1BdBPQ7u8tfArXUKuRaTupGRHzikX.NWIdtPmrrwzPsTv9PZxLt6",
       "id": 2
+    },
+    {
+      "email": "123@gmail.com",
+      "password": "$2a$10$gwkhF6pbAIfCSwnv/ZjRduzg0yiXcLDLdq/BBSSuGGwGZUerYBd5C",
+      "id": 3
     }
   ],
   "movies": [

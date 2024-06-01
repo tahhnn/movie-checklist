@@ -6,8 +6,15 @@ import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 
 const Card = ({ item, isLoading, isValidating }: Content) => {
-  const { storedValue, setValue, handleRemoveCheckList, handleCheckList } =
-    useContext<any>(StoreContext);
+  const {
+    storedValue,
+    setValue,
+    handleRemoveCheckList,
+    handleCheckList,
+    isLogin,
+    setOpenLoginForm,
+    handleError,
+  } = useContext<any>(StoreContext);
 
   const [isOnChecklist, setToChecklist] = useState<boolean>(false);
   const { data: genres } = useGenres();
@@ -15,9 +22,6 @@ const Card = ({ item, isLoading, isValidating }: Content) => {
     return item.genre_ids?.includes(+i.id);
   });
 
-  const handleError = (e: any, poster_path: any) => {
-    e.target.src = poster_path;
-  };
   useEffect(() => {
     if (storedValue?.find((i: any) => i.id === item.id)) {
       setToChecklist(true);
@@ -59,14 +63,20 @@ const Card = ({ item, isLoading, isValidating }: Content) => {
       <p className="text-center mt-2 h-[50px] font-bold">{item?.title}</p>
       <span className="flex gap-3 justify-center">
         {genresName?.slice(0, 2).map((i: any) => (
-          <p key={i.id} className="p-1 bg-red-400 text-white rounded-xl">{i.name}</p>
+          <p key={i.id} className="p-1 bg-red-400 text-white rounded-xl">
+            {i.name}
+          </p>
         ))}
       </span>
       {!isOnChecklist && (
         <button
           className="flex mx-auto mt-4 border-2 border-red-300 p-3 rounded-lg hover:bg-red-400 hover:text-white transition-all delay-75 ease-linear"
           onClick={() => {
-            handleCheckList(item);
+            if (!isLogin) {
+              setOpenLoginForm(true);
+            } else {
+              handleCheckList(item);
+            }
           }}
         >
           <svg

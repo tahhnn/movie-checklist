@@ -1,19 +1,13 @@
 import { StoreContext } from "@/context";
 import { getOneFilm, useFilm } from "@/swr/useFilm";
 import { useGenres } from "@/swr/useGenres";
-import {
-  Box,
-  Modal,
-  SpeedDial,
-  SpeedDialAction,
-  SpeedDialIcon,
-} from "@mui/material";
 import { useRouter } from "next/router";
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import MovieUpdate from "@/components/movie/MovieUpdate";
 import { FilmApi } from "@/instance/film";
+import ChecklistButtonOnLogin from "./ChecklistButtonOnLogin";
+import BoxDial from "./BoxDial";
+import UpdateModal from "./UpdateModal";
 type Props = {};
 
 const DetailMovie = (props: Props) => {
@@ -34,21 +28,14 @@ const DetailMovie = (props: Props) => {
     overflowX: "hidden",
   };
   const param = useRouter();
-  const {
-    handleCheckList,
-    handleRemoveCheckList,
-    storedValue,
-    onUpdate,
-    setOnUpdate,
-  } = useContext<any>(StoreContext);
+  const { onUpdate, setOnUpdate, isLogin } = useContext<any>(StoreContext);
   const route = useRouter();
-  
+
   const id = route.query.id;
   const { data } = getOneFilm(id);
-  
 
-  const { data: film, mutate, isLoading:filmLoading } = useFilm();
-  
+  const { data: film, mutate, isLoading: filmLoading } = useFilm();
+
   const { data: genres } = useGenres();
   const genresName = genres?.filter((i: any) => {
     return data?.genre_ids?.includes(+i.id);
@@ -64,19 +51,10 @@ const DetailMovie = (props: Props) => {
     });
   };
 
-  const actions = [
-    { icon: <AutoFixHighIcon />, name: "Fix", func: setOnUpdate },
-    { icon: <DeleteIcon />, name: "Delete", func: handleDelete },
-  ];
- 
-  const isOnCheckList = useMemo(() => {
-    return storedValue?.some((i: any) => i.id === data?.id);
-  }, [storedValue, data]);
-
   const handleSuccess = () => {
     setOnUpdate(false);
-    mutate()
-  }
+    mutate();
+  };
   // useEffect(() => {
   //   const existFilm = film?.find((i: any) => i.id === +data?.id);
   //   if (existFilm) {
@@ -109,56 +87,22 @@ const DetailMovie = (props: Props) => {
           <p className="p__title">{data?.title}</p>
           <p>
             Rating:{" "}
-            <strong>
-              {Math.floor((data?.vote_average / 10) * 100)}%
-            </strong>
+            <strong>{Math.floor((data?.vote_average / 10) * 100)}%</strong>
           </p>
 
           <p>{data?.overview}</p>
-          {isOnCheckList ? (
-            <button
-              className=" btn__btn--watchlist"
-              onClick={() => {
-                handleRemoveCheckList(data);
-              }}
-            >
-              Added
-            </button>
-          ) : (
-            <button
-              className="btn__btn--watchlist"
-              onClick={() => {
-                handleCheckList(data);
-              }}
-            >
-              Watch List
-            </button>
-          )}
-        </div>{" "}
-        <Box sx={{ transform: "translateZ(0px)", flexGrow: 1 }}>
-          <SpeedDial
-            ariaLabel="SpeedDial basic example"
-            sx={{ position: "absolute", bottom: 16, right: 16 }}
-            icon={<SpeedDialIcon />}
-          >
-            {actions.map((action) => (
-              <SpeedDialAction
-                key={action.name}
-                icon={action.icon}
-                tooltipTitle={action.name}
-                onClick={() => {
-                  action.func(true);
-                }}
-              />
-            ))}
-          </SpeedDial>
-        </Box>
+          <ChecklistButtonOnLogin data={data} />
+        </div>
+        {isLogin && <BoxDial handleDelete={handleDelete} />}
       </div>
-      <Modal open={onUpdate} onClose={() => setOnUpdate(false)}>
-        <Box sx={style3}>
-          <MovieUpdate item={data} handleSuccess={handleSuccess}/>
-        </Box>
-      </Modal>
+      {isLogin && (
+        <UpdateModal
+          style3={style3}
+          onUpdate={onUpdate}
+          handleSuccess={handleSuccess}
+          data={data}
+        />
+      )}
     </>
   );
 };
